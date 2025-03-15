@@ -12,5 +12,9 @@ exports.POOL = new pg_1.default.Pool({
     port: parseInt(process.env.DB_PORT || "5432", 10),
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
-    password: String(process.env.DB_PASSWORD)
+    password: String(process.env.DB_PASSWORD),
+    ssl: { rejectUnauthorized: false }
 });
+exports.POOL.connect()
+    .then(() => console.log("Conexión exitosa"))
+    .catch(error => console.log("Error conectando", error));
