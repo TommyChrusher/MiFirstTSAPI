@@ -19,34 +19,9 @@ const dbFunctions_1 = __importDefault(require("../config/dbFunctions"));
 //////Parametrización de distintas acciones a realizar en la tabla 'tiposestilostecnicas'
 const tableName = "tiposestilostecnicas";
 ////Crear nuevo registro
-/*
-const createTiEsTe = async (params: any) => {
-    try {
-        const data = params
-        validations.checkInsertData(data)
-        await POOL.query(`
-            Insert Into ${tableName}(
-            tipodato,
-            nombredato,
-            descripciondato) Values (
-            '${data.tipodato}',
-            '${data.nombredato}',
-            '${data.descripciondato}'
-            )`)
-        const result = await POOL.query(`
-            Select * From ${tableName}
-            Where tipodato = '${data.tipodato}' AND
-            nombredato = '${data.nombredato}' AND
-            descripciondato = '${data.descripciondato}'
-            `)
-        return result.rows
-    } catch (error) {
-        throw new Error(String(error));
-    }
-}*/
 const createTiEsTe = (params) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield dbFunctions_1.default.creatItem(tableName, params);
+        const result = yield dbFunctions_1.default.createTiEsTe(params);
         return result;
     }
     catch (error) {
@@ -67,7 +42,7 @@ const getAllTiEsTe = () => __awaiter(void 0, void 0, void 0, function* () {
 const getTiEsTe = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const ID = validations_1.default.checkType(id, "number");
-        const result = yield validations_1.default.findItem(tableName, ID);
+        const result = yield dbFunctions_1.default.findItem(tableName, ID);
         if (result.length === 0) {
             throw new customClasses_1.default.CustomError("No se encontraron registros", 404);
         }
@@ -80,28 +55,19 @@ const getTiEsTe = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 ////Editar TiEsTe
-/*
-const editTiEsTe = async (id:any,params:any)=>{
-    try{
-        const Id = validations.checkType(id,"number");
-        const data = params
-        validations.checkInsertData(data)
-        await validations.findItem(tableName,Id)
-        const changes = Object.entries(data)
-            .map(([key, value]) => `${key} = ${typeof value === "string" ? `'${value}'` : value}`)
-            .join(", ");
-        await POOL.query(`Update ${tableName} SET ${changes} Where id = ${Id}`)
-        const result = await POOL.query(`
-            Select * From ${tableName}
-            Where id = ${Id}
-            `)
-        return result.rows
-    } catch (error:any) {
-        throw new customClass.CustomError(error.message,error.statusCode)
+const editTiEsTe = (id, params) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = params;
+        const result = dbFunctions_1.default.editTiEsTe(id, data);
+        return result;
     }
-}*/
+    catch (error) {
+        throw new customClasses_1.default.CustomError(error.message, error.statusCode);
+    }
+});
 exports.default = {
     createTiEsTe,
+    editTiEsTe,
     getAllTiEsTe,
     getTiEsTe
 };

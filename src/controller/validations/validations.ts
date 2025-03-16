@@ -1,4 +1,3 @@
-import { POOL } from "../../config/dbConfig";
 import customClass from "../../config/customClasses";
 
 
@@ -92,26 +91,10 @@ function checkType(value:any,type:string){
         
     }
 }
-///////Validar si un registro exite antes de editarlo
-async function  findItem (tableName:string, id:number){
-    try{
-        const result =JSON.parse(JSON.stringify(( await POOL.query(`Select * from ${tableName} 
-        Where id = ${id}`))))
-        if(
-           result.rows.length === 0
-        ){
-            throw new customClass.CustomError(`No se encontró el elemento con id ${id}`,404)
-        }else{
-            return result.rows
-        }
-    } catch (error:any) {
-        throw new customClass.CustomError(error.message,error.statusCode)
-    }
-}
+
 
 export default{
     checkFieldRules,
     checkJsonStructure,
-    checkType,
-    findItem
+    checkType
 }

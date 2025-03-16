@@ -33,7 +33,7 @@ TiEsTeRouter.get('/:id', async (req, res) => {
     }
 })
 
-/*TiEsTeRouter.put("/:id", async (req, res) => {
+TiEsTeRouter.put("/:id", async (req, res) => {
     try {
         const id = req.params.id
         const body = req.body
@@ -42,5 +42,5 @@ TiEsTeRouter.get('/:id', async (req, res) => {
     } catch (error: any) {
         res.status(error.statusCode).json({ error: error.message })
     }
-})*/
+})
 export default TiEsTeRouter;

@@ -43,14 +43,15 @@ TiEsTeRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(error.statusCode).json({ error: error.message });
     }
 }));
-/*TiEsTeRouter.put("/:id", async (req, res) => {
+TiEsTeRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id
-        const body = req.body
-        const result = await TiEsTeController.editTiEsTe(id, body)
-        res.status(200).json(result)
-    } catch (error: any) {
-        res.status(error.statusCode).json({ error: error.message })
+        const id = req.params.id;
+        const body = req.body;
+        const result = yield TiEsTeController_1.default.editTiEsTe(id, body);
+        res.status(200).json(result);
     }
-})*/
+    catch (error) {
+        res.status(error.statusCode).json({ error: error.message });
+    }
+}));
 exports.default = TiEsTeRouter;

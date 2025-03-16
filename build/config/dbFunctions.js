@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dbConfig_1 = require("../config/dbConfig");
 const customClasses_1 = __importDefault(require("./customClasses"));
 const validations_1 = __importDefault(require("../controller/validations/validations"));
+/////nombre de la tabla tieste
+const tableNameTiEsTe = "tiposestilostecnicas";
 /////Buscar elemento de tabla por ID
 function findItem(tableName, id) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -47,19 +49,23 @@ function listItems(tableName) {
     });
 }
 /////Crear elemento nuevo en una tabla
-function creatItem(tableName, item) {
+function createTiEsTe(item) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            validations_1.default.checkJsonStructure(tableName, item);
-            validations_1.default.checkFieldRules(tableName, 'tipodato', item);
+            validations_1.default.checkJsonStructure(tableNameTiEsTe, item);
+            validations_1.default.checkFieldRules(tableNameTiEsTe, 'tipodato', item);
             const fields = Object.entries(item)
                 .map(([key]) => `${key}`)
                 .join(", ");
             const values = Object.entries(item)
-                .map(([key, value]) => `${key} = ${typeof value === "string" ? `'${value}'` : value}`)
+                .map(([_key, values]) => `'${values}'`)
                 .join(", ");
-            yield dbConfig_1.POOL.query(`Insert into ${tableName} (${fields}) Values ${values}`);
-            const result = yield dbConfig_1.POOL.query(`Select * From ${tableName} Where ${values}`);
+            const SqlQuery = `Insert Into ${tableNameTiEsTe} (${fields}) Values (${values})`;
+            yield dbConfig_1.POOL.query(SqlQuery);
+            const SqlSearch = Object.entries(item)
+                .map(([key, values]) => `${key} = '${values}'`)
+                .join(" And ");
+            const result = yield dbConfig_1.POOL.query(`Select * From ${tableNameTiEsTe} Where ${SqlSearch}`);
             return (result.rows);
         }
         catch (error) {
@@ -67,8 +73,32 @@ function creatItem(tableName, item) {
         }
     });
 }
+function editTiEsTe(id, item) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const Id = validations_1.default.checkType(id, "number");
+            validations_1.default.checkJsonStructure(tableNameTiEsTe, item);
+            validations_1.default.checkFieldRules(tableNameTiEsTe, 'tipodato', item);
+            yield findItem(tableNameTiEsTe, Id);
+            /*const changes = Object.entries(item)
+                .map(([key, values]) => `${key} = '${values}'`)
+                .join(', ')
+            await POOL.query(`Update ${tableNameTiEsTe} SET ${changes} Where id = ${Id}`)*/
+            const searchQuery = Object.entries(item)
+                .map(([key, values]) => `${key} = '${values}'`)
+                .join(' And ');
+            const result = yield dbConfig_1.POOL.query(`Select * From ${tableNameTiEsTe} Where ${searchQuery}`);
+            console.log(result);
+            return result.rows;
+        }
+        catch (error) {
+            throw new customClasses_1.default.CustomError(error.message, error.statusCode);
+        }
+    });
+}
 exports.default = {
-    creatItem,
+    createTiEsTe,
+    editTiEsTe,
     listItems,
     findItem
 };
