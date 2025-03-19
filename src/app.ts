@@ -9,9 +9,9 @@ const app = express();
 app.use(express.json());
 
 app.use((_req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); // Permite todos los dominios (puedes restringirlo)
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Origin", ["https://*.powerapps.com", "https://apps.powerapps.com"]); // Permite todos los dominios (puedes restringirlo)
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
 });
 
