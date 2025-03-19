@@ -88,7 +88,6 @@ function editTiEsTe(id, item) {
                 .map(([key, values]) => `${key} = '${values}'`)
                 .join(' And ');
             const result = yield dbConfig_1.POOL.query(`Select * From ${tableNameTiEsTe} Where ${searchQuery}`);
-            console.log(result);
             return result.rows;
         }
         catch (error) {

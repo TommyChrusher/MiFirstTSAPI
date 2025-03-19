@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dbConfig_1 = require("../config/dbConfig");
 const validations_1 = __importDefault(require("./validations/validations"));
 const customClasses_1 = __importDefault(require("../config/customClasses"));
 const dbFunctions_1 = __importDefault(require("../config/dbFunctions"));
@@ -31,7 +30,7 @@ const createTiEsTe = (params) => __awaiter(void 0, void 0, void 0, function* () 
 ////Enlistar todos los registros
 const getAllTiEsTe = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield dbConfig_1.POOL.query(`Select * From ${tableName}`);
+        const result = yield dbFunctions_1.default.listItems(tableName);
         return result.rows;
     }
     catch (error) {
